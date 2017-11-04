@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {render} from 'react-dom';
 
@@ -30,4 +31,48 @@ class App extends React.Component {
     }
 }
 
-render(<App/>, window.document.getElementById('app'));
+render(<App/>, window.document.getElementById('app'));*/
+
+import { createStore } from 'redux';
+
+const initialState = {
+    result: 1,
+    lastValues: []
+}
+
+const reducer = (state = initialState ,action) => {
+    switch(action.type){
+        case "ADD":
+             // console.log(state.result + action.payload);
+            // state = state + action.payload;
+            state = {
+                ...state,
+                result: state.result + action.payload
+            }
+            break;
+        case "SUB":
+            state = {
+                ...state,
+                result: state.result - action.payload
+            }
+            // state = state - action.payload;
+            break;
+    }
+    return state;
+}
+
+const store = createStore(reducer);
+
+store.subscribe(() => {
+    console.log("Updated value : " + store.getState())
+})
+
+store.dispatch({
+    type: 'ADD',
+    payload: 10
+})
+
+store.dispatch({
+    type: 'SUB',
+    payload: 5
+})
