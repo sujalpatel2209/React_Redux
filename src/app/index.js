@@ -33,14 +33,9 @@ class App extends React.Component {
 
 render(<App/>, window.document.getElementById('app'));*/
 
-const middleware = (state) => (next) => (action) => {
-
-    console.log("middleware logger : " + action.payload);
-    next(action);
-}
-
 
 import {createStore, applyMiddleware} from 'redux';
+import Logger from 'redux-logger';
 
 const initialMathState = {
     result: 1
@@ -50,6 +45,12 @@ const initialMathState = {
     name: 'Sujal',
     age: 27
 }*/
+
+const middleware = (state) => (next) => (action) => {
+
+    console.log("middleware logger : " + action.payload);
+    next(action);
+}
 
 const mathReducer = (state = initialMathState, action) => {
     switch (action.type) {
@@ -91,11 +92,13 @@ const mathReducer = (state = initialMathState, action) => {
     }
 }*/
 
-const store = createStore(mathReducer, applyMiddleware(middleware));
+const store = createStore(
+    mathReducer,
+    applyMiddleware(Logger));
 
-store.subscribe(() => {
+/*store.subscribe(() => {
     console.log("Updated value : " + store.getState().result)
-})
+})*/
 
 store.dispatch({
     type: 'ADD',
